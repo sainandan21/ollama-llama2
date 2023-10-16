@@ -1,34 +1,21 @@
-## Use an Alpine Linux base image
-#FROM ubuntu:22.04
-#
-## Install CURL
-#RUN apk add --no-cache curl
-#
-## Download the Ollama binary and make it executable
-#RUN curl -L https://ollama.ai/download/ollama-linux-amd64 -o /usr/bin/ollama
-#
-## Make the Ollama binary executable
-#RUN chmod +x /usr/bin/ollama
-#
-## Set the working directory
-#WORKDIR /llama2
-#
-## Start Ollama
-#CMD ["ollama", "serve"]
-
-# Use Ubuntu 20.04 as the base image
+# This sets the base image for the Docker image. It specifies that the image will be built on top of Ubuntu 20.04.
 FROM ubuntu:20.04
 
-# Update package lists and install CURL
+# This RUN instruction is used to execute commands within the image.
+#It updates the package lists (using apt-get update) and installs the curl tool (using apt-get install -y curl).
+#This is necessary to download files from the internet in the subsequent steps.
 RUN apt-get update && apt-get install -y curl
 
-# Download the Ollama binary and make it executable
+# This RUN instruction does two things: It uses the curl command to download the Ollama binary from the specified  \
+#URL (https://ollama.ai/download/ollama-linux-amd64) and saves it as /usr/bin/ollama in the Docker image.
 RUN curl -L https://ollama.ai/download/ollama-linux-amd64 -o /usr/bin/ollama && \
     chmod +x /usr/bin/ollama
 
-# Set the working directory
+# This instruction sets the working directory within the image to /llama2. \
+#Any subsequent commands executed within the image will be relative to this directory.
 WORKDIR /llama2
 
-# Start Ollama
+# This CMD instruction specifies the default command that should be run when a container is started from the built image.
+#In this case, it runs the ollama binary with the argument "serve."
 CMD ["ollama", "serve"]
 
